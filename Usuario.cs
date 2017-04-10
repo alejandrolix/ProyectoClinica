@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clinica
 {
-    class Usuarios
+    class Usuario
     {
         #region Atributos y Propiedades
 
@@ -26,7 +26,7 @@ namespace Clinica
         }
 
         #endregion
-
+        
 
         #region Métodos        
 
@@ -35,7 +35,7 @@ namespace Clinica
 
         #region Constructor
 
-        public Usuarios(String nombre, String password)
+        public Usuario(String nombre, String password)
         {
             this.Nombre = nombre;
             this.Password = password;
