@@ -12,6 +12,7 @@ namespace Clinica
 
         private String _Nombre;
         private String _Password;
+        private int _Numero;
 
         public String Nombre
         {
@@ -25,10 +26,16 @@ namespace Clinica
             set { this._Password = value; }
         }
 
+        public int Numero
+        {
+            get { return this._Numero; }
+            set { this._Numero = value; }
+        }
+
         #endregion
         
 
-        #region Métodos        
+        #region Métodos
 
         #endregion
 
