@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clinica
+namespace ProgramaClinica
 {
+    [Serializable]
     class Usuario
     {
         #region Atributos y Propiedades
@@ -42,10 +43,11 @@ namespace Clinica
 
         #region Constructor
 
-        public Usuario(String nombre, String password)
+        public Usuario(String nombre, String password, int numero)
         {
             this.Nombre = nombre;
             this.Password = password;
+            this.Numero = numero;
         }
 
         #endregion

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clínica
+namespace ProgramaClinica
 {
     class Paciente
     {
@@ -17,6 +17,7 @@ namespace Clínica
         private DateTime _FechaNacimiento;
         private ushort _Edad;
         private List<Diagnostico> _Diagnosticos;
+        private Boolean _EstaCurado;
 
         public String SIP
         {
@@ -58,6 +59,12 @@ namespace Clínica
         {
             get { return this._Diagnosticos; }
             set { this._Diagnosticos = value; }
+        }
+
+        public Boolean EstaCurado
+        {
+            get { return this._EstaCurado; }
+            set { this._EstaCurado = value; }
         }
 
         #endregion
