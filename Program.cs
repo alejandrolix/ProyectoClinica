@@ -11,11 +11,12 @@ namespace ProgramaClinica
 {
     class Program
     {
-        static Clinica clinica = new Clinica(@"C.\ Los Almendros, 34", "Medimar", "123456789");
+        static Clinica clinica = new Clinica(@"C.\ Los Almendros, 34", "Medimar", "123456789");        
 
         static List<Usuario> CrearUsuarios()
         {
-            List<Usuario> listaUsuarios = new List<Usuario>();            
+            List<Usuario> listaUsuarios = new List<Usuario>();
+            listaUsuarios.Add(new Usuario("Administrador", "Administrador", 0));
             listaUsuarios.Add(new Usuario("Gestor", "Gestor", 1));
             listaUsuarios.Add(new Usuario("Médico", "Médico", 2));
             listaUsuarios.Add(new Usuario("Enfermero", "Enfermero", 3));
@@ -27,6 +28,7 @@ namespace ProgramaClinica
         {
             String usuarioIntroducido = "", passwordIntroducida = "";
             Boolean repetirLogin = true, repetirUsuario = true, repetirPassword = true, romperBucle = true;
+            Usuario infoUsuarioLogueado;
 
             while (repetirLogin)
             {
@@ -80,14 +82,10 @@ namespace ProgramaClinica
                     {
                         repetirLogin = false;
                         romperBucle = false;
-                        MenuPrincipal(usuarioIntroducido, passwordIntroducida);
+
+                        infoUsuarioLogueado = new Usuario(usuarioIntroducido, passwordIntroducida, listaUsuarios[i].Numero);
+                        MenuPrincipal(infoUsuarioLogueado);
                     }
-                    /* else if (usuarioIntroducido == "Administrador" && passwordIntroducida == "Administrador")
-                    {
-                        repetirLogin = false;
-                        romperBucle = false;
-                        MenuPrincipal(usuarioIntroducido, passwordIntroducida);
-                    } */
                 }
 
                 Console.Clear();
@@ -97,7 +95,7 @@ namespace ProgramaClinica
             }            
         }
 
-        static void MenuPrincipal(String usuarioIntroducido, String passwordIntroducida)
+        static void MenuPrincipal(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
             Boolean repetirMenu = true;
@@ -113,15 +111,20 @@ namespace ProgramaClinica
                     switch (numIntroducido)
                     {
                         case 1:
-                            SubMenu1(usuarioIntroducido, passwordIntroducida);
+                            SubMenu1(infoUsuarioLogueado);
                             break;
 
                         case 2:
-                            MenuClinica(usuarioIntroducido, passwordIntroducida);
+                            MenuClinica(infoUsuarioLogueado);
                             break;
 
                         case 3:
-                            // Implementar.
+                            #region Código
+
+
+
+                            #endregion
+
                             break;
 
                         case 4:
@@ -141,87 +144,15 @@ namespace ProgramaClinica
                     System.Threading.Thread.Sleep(5000);
                     Console.Clear();
                 }
-            }
-
-            /* int numIntroducido;
-            Boolean repetirMenu = true, repetirPassword = true;            
-
-            while (repetirMenu)
-            {
-                Console.Clear();
-
-                Console.WriteLine("1. Configuración \n 2. Usuarios \n 3. Cargar Datos \n 4. Guardar Datos \n 5. Salir Aplicación \n \n Introduce un número: ");
-                numIntroducido = int.Parse(Console.ReadLine());
-
-                if (numIntroducido >= 1 && numIntroducido <= 5)
-                {
-                    repetirMenu = false;
-                   
-                    switch (numIntroducido)
-                    {
-                        case 1:                 // Opción de "Administrador".
-                            if (usuarioIntroducido == "Administrador" && passwordIntroducida == "Administrador")
-                            {
-                                while (repetirPassword)
-                                {
-                                    Console.Clear();
-
-                                    Console.Write("Introduce la nueva constraseña del administrador: ");
-                                    passwordIntroducida = Console.ReadLine();
-
-                                    if (passwordIntroducida == "")
-                                    {
-                                        Console.Clear();
-
-                                        Console.WriteLine("Error, tienes que introducir una contraseña.");
-                                        System.Threading.Thread.Sleep(5000);
-                                        Console.Clear();
-                                    }
-                                    else
-                                    {
-                                        repetirPassword = false;
-                                        StreamWriter archivo = new StreamWriter(@".\Archivos\admin.pas", false, Encoding.UTF8);
-
-                                        archivo.WriteLine(usuarioIntroducido + ',' + passwordIntroducida);
-
-                                        archivo.Close();
-                                    }
-                                }
-                            }
-                            break;
-
-                        case 2:
-
-                            break;
-
-                        case 3:
-
-                            break;
-
-                        case 4:
-
-                            break;
-
-                        case 5:
-
-                            break;
-                    }
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Error, no has introducido bien el número. Introdúcelo de nuevo: ");
-                    System.Threading.Thread.Sleep(5000);
-                    Console.Clear();
-                }
-            } */            
+            }            
         }
 
-        static void SubMenu1(String usuarioIntroducido, String passwordIntroducida)
+        static void SubMenu1(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
             Boolean repetirMenu = true, repetirPassword = true;
             IFormatter formatear = new BinaryFormatter();
+            String passwordIntroducida, usuarioIntroducido = "";
             // String loginAdminParaGuardar;
 
             while (repetirMenu)
@@ -237,7 +168,7 @@ namespace ProgramaClinica
                         case 1:
                             #region Código
 
-                            if (usuarioIntroducido == "Administrador" && passwordIntroducida == "Administrador")
+                            if (infoUsuarioLogueado.Numero == 0)
                             {
                                 while (repetirPassword)
                                 {
@@ -284,9 +215,9 @@ namespace ProgramaClinica
                         case 2:
                             #region Código
 
-                            if (usuarioIntroducido == "Administrador" && passwordIntroducida == "Administrador")
+                            if (infoUsuarioLogueado.Numero == 0)
                             {
-                                SubMenu2(usuarioIntroducido, passwordIntroducida);
+                                SubMenu2(infoUsuarioLogueado);
                             }
                             else
                             {
@@ -314,7 +245,7 @@ namespace ProgramaClinica
                             break;
 
                         case 6:
-                            MenuPrincipal(usuarioIntroducido, passwordIntroducida);
+                            MenuPrincipal(infoUsuarioLogueado);
                             break;
                     }
                 }
@@ -329,7 +260,7 @@ namespace ProgramaClinica
             }
         }
 
-        static void SubMenu2(String usuarioIntroducido, String passwordIntroducida)
+        static void SubMenu2(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
             Boolean repetirMenu = true;
@@ -345,12 +276,12 @@ namespace ProgramaClinica
                     switch (numIntroducido)
                     {
                         case 1:
-                            AnnadirUsuario();
+                            AnnadirUsuario(infoUsuarioLogueado);
 
                             break;
 
                         case 2:
-                            EliminarUsuario();
+                            EliminarUsuario(infoUsuarioLogueado);
 
                             break;
 
@@ -359,7 +290,7 @@ namespace ProgramaClinica
                             break;
 
                         case 4:
-                            SubMenu1(usuarioIntroducido, passwordIntroducida);
+                            SubMenu1(infoUsuarioLogueado);
                             break;
                     }
                 }
@@ -374,7 +305,7 @@ namespace ProgramaClinica
             }
         }
 
-        static void AnnadirUsuario()
+        static void AnnadirUsuario(Usuario infoUsuarioLogueado)
         {
             int numUsuarioIntroducido;
             Boolean repetirTipoUsuario = true;
@@ -415,7 +346,8 @@ namespace ProgramaClinica
 
                             Console.WriteLine("Usuario Añadido.");
                             System.Threading.Thread.Sleep(4000);
-                            SubMenu2(usuarioIntroducido, passwordIntroducida);
+
+                            SubMenu2(infoUsuarioLogueado);
 
                             #endregion                            
 
@@ -476,7 +408,7 @@ namespace ProgramaClinica
             }
         }
 
-        static void EliminarUsuario()
+        static void EliminarUsuario(Usuario infoUsuarioLogueado)
         {
             String usuarioIntroducido, passwordIntroducida;
             Boolean repetirNombre = true, repetirPassword = true;
@@ -541,7 +473,7 @@ namespace ProgramaClinica
                                 Console.WriteLine("Usuario Eliminado.");
 
                                 System.Threading.Thread.Sleep(5000);
-                                SubMenu2(usuarioIntroducido, passwordIntroducida);
+                                SubMenu2(infoUsuarioLogueado);
                             }
                         }
 
@@ -554,12 +486,14 @@ namespace ProgramaClinica
             }
         }
 
-        static void MenuClinica(String usuarioIntroducido, String passwordIntroducida)
+        static void MenuClinica(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
-            Boolean repetirMenu1 = true, repetirMenu2 = true;            
+            Boolean repetirMenu1 = true, repetirMenu2 = true, repetirMenu3 = true, repetirEspecialidad = true, romperBucle = true;
+            int numHabitacionIntroducido;
+            String especialidadIntroducida;
 
-            if (usuarioIntroducido == "Administrador" && passwordIntroducida == "Administrador")
+            if (infoUsuarioLogueado.Numero == 0)
             {                
                 while (repetirMenu1)
                 {
@@ -609,7 +543,7 @@ namespace ProgramaClinica
                                                 break;
 
                                             case 6:
-                                                MenuClinica(usuarioIntroducido, passwordIntroducida);
+                                                MenuClinica(infoUsuarioLogueado);
                                                 break;
                                         }
                                     }
@@ -628,7 +562,142 @@ namespace ProgramaClinica
                                 break;
 
                             case 2:
-                                // Implementar.
+                                #region Código
+
+                                while (repetirMenu3)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("############ \n # Menú Habitaciones # \n ############ \n\n 1. Añadir Habitación \n 2. Eliminar Habitación \n 3. Mostrar Especialidad \n 4. Cambiar Especialidad \n 5. Salir \n 6. Volver \n\n Introduce un número: ");
+                                    numIntroducido = int.Parse(Console.ReadLine());
+
+                                    if (numIntroducido >= 1 && numIntroducido <= 6)
+                                    {
+                                        // repetirMenu2 = false;
+
+                                        switch (numIntroducido)
+                                        {
+                                            case 1:
+                                                #region Código
+
+                                                Console.Clear();
+                                                Console.Write("Introduce el número de la habitación: ");
+                                                numHabitacionIntroducido = int.Parse(Console.ReadLine());
+
+                                                while (repetirEspecialidad)
+                                                {
+                                                    Console.Clear();
+                                                    Console.Write("Introduce la especialidad: ");
+                                                    especialidadIntroducida = Console.ReadLine();
+
+                                                    if (especialidadIntroducida == "")
+                                                    {
+                                                        Console.Clear();
+                                                        Console.WriteLine("Error, tienes que introducir una especialidad.");
+                                                        System.Threading.Thread.Sleep(5000);
+                                                        Console.Clear();
+                                                    }
+                                                    else
+                                                    {
+                                                        repetirEspecialidad = false;
+
+                                                        clinica.Habitaciones.Add(new Habitacion(1, false, especialidadIntroducida));                                                              
+
+                                                        Console.Clear();
+                                                        Console.WriteLine("Habitación Añadida.");
+                                                    }
+                                                }                                                
+
+                                                #endregion
+
+                                                break;
+
+                                            case 2:
+                                                #region Código
+
+                                                Console.Clear();
+                                                Console.Write("Introduce el número de la habitación: ");
+                                                numHabitacionIntroducido = int.Parse(Console.ReadLine());
+
+                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                {
+                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    {
+                                                        romperBucle = false;
+                                                        clinica.Habitaciones.Remove(clinica.Habitaciones[i]);                                                        
+
+                                                        Console.Clear();
+                                                        Console.WriteLine("Habitación eliminada.");
+                                                        System.Threading.Thread.Sleep(4000);
+                                                    }
+                                                }
+
+                                                #endregion
+
+                                                break;
+
+                                            case 3:
+                                                #region Código
+
+                                                Console.Clear();
+                                                Console.Write("Introduce el número de la habitación: ");
+                                                numHabitacionIntroducido = int.Parse(Console.ReadLine());
+
+                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                {
+                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    {
+                                                        romperBucle = false;
+                                                        clinica.Habitaciones[i].MostrarEspecialidad(clinica.Habitaciones[i]);
+                                                        Console.ReadKey();
+
+                                                        Console.Clear();                                                        
+                                                    }
+                                                }
+
+                                                #endregion
+
+                                                break;
+
+                                            case 4:
+                                                #region Código
+
+                                                Console.Clear();
+                                                Console.Write("Introduce el número de la habitación: ");
+                                                numHabitacionIntroducido = int.Parse(Console.ReadLine());
+
+                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                {
+                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    {
+                                                        romperBucle = false;
+                                                        clinica.Habitaciones[i].CambiarEspecialidad(clinica.Habitaciones[i]);
+                                                    }
+                                                }
+
+                                                #endregion
+
+                                                break;
+
+                                            case 5:
+                                                Environment.Exit(0);
+                                                break;
+
+                                            case 6:
+                                                MenuClinica(infoUsuarioLogueado);
+                                                break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.Clear();
+
+                                        Console.WriteLine("Error, no has introducido bien el número. Introdúcelo de nuevo: ");
+                                        System.Threading.Thread.Sleep(5000);
+                                        Console.Clear();
+                                    }
+                                }
+
+                                #endregion
 
                                 break;
 
@@ -637,7 +706,7 @@ namespace ProgramaClinica
                                 break;
 
                             case 4:
-                                MenuPrincipal(usuarioIntroducido, passwordIntroducida);
+                                MenuPrincipal(infoUsuarioLogueado);
                                 break;
                         }
                     }
@@ -657,7 +726,7 @@ namespace ProgramaClinica
 
                 Console.WriteLine("Error, no tienes permiso para acceder a ésta opción: ");
                 System.Threading.Thread.Sleep(5000);                
-                MenuPrincipal(usuarioIntroducido, passwordIntroducida);
+                MenuPrincipal(infoUsuarioLogueado);
             }          
         }
 

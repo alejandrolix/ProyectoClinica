@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace ProgramaClinica
 {
+    [Serializable]
     class Diagnostico
     {
         #region Atributos y Propiedades
 
         private String _Descripcion;
-        private enum TipoDiagnostico
+        private enum EnumTipoDiagnostico
         {
             Alta, Leve, Grave, MuyGrave
         }
+        private String _TipoDiagnostico;
         private Tratamiento _Tratamiento;
 
         public String Descripcion 
@@ -29,26 +31,44 @@ namespace ProgramaClinica
             set { this._Tratamiento = value; }
         }
 
+        public String TipoDiagnostico
+        {
+            get { return this._TipoDiagnostico; }
+            set { this._TipoDiagnostico = value; }
+        }
+
         #endregion
 
 
         #region Métodos
 
-        public void EsAlta()
+        public Boolean EsAlta()
         {
+            if (this.TipoDiagnostico == "Alta")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
+        public void Tratar()
+        {
+            this.Tratamiento = new Tratamiento();
         }
 
         public Object LeeEnum(String tipoDiagnostico)
         {
-            String[] opcionesDisponibles = Enum.GetNames(typeof(TipoDiagnostico));
+            String[] opcionesDisponibles = Enum.GetNames(typeof(EnumTipoDiagnostico));
             String tipoDiagnosticoIntroducido;
 
             opcionesDisponibles[3].Insert(0, "Muy Grave");
 
             while (true)
             {
-                if (Enum.IsDefined(typeof(TipoDiagnostico), tipoDiagnostico))
+                if (Enum.IsDefined(typeof(EnumTipoDiagnostico), tipoDiagnostico))
                 {
                     for (int i = 0; i < opcionesDisponibles.Length; i++)
                     {
@@ -60,9 +80,15 @@ namespace ProgramaClinica
                 }
                 else
                 {
-                    return (TipoDiagnostico)Enum.Parse(typeof(TipoDiagnostico), tipoDiagnostico);
+                    this.TipoDiagnostico = Enum.GetName(typeof(EnumTipoDiagnostico), tipoDiagnostico);
+                    return (EnumTipoDiagnostico)Enum.Parse(typeof(EnumTipoDiagnostico), tipoDiagnostico);
                 }
             }                      
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Datos Diagnóstico \n Descripción: {0} \n Tipo de Diagnóstico: {1} \n Tratamiento: {2}", this.Descripcion, this.TipoDiagnostico, this.Tratamiento);
         }
 
         #endregion

@@ -269,7 +269,7 @@ namespace ProgramaClinica
                         if (this.Medicos[i].DNI == dniIntroducido)
                         {
                             romperBucle = false;
-                            this.Medicos.RemoveAt(i);
+                            this.Medicos.Remove(this.Medicos[i]);
 
                             Console.Clear();
                             Console.WriteLine("Médico Eliminado.");
@@ -309,7 +309,7 @@ namespace ProgramaClinica
                         if (this.Enfermeros[i].DNI == dniIntroducido)
                         {
                             romperBucle = false;
-                            this.Enfermeros.RemoveAt(i);
+                            this.Enfermeros.Remove(this.Enfermeros[i]);
 
                             Console.Clear();
                             Console.WriteLine("Enfermero Eliminado.");
@@ -320,30 +320,68 @@ namespace ProgramaClinica
             }
         }
 
-        public void BuscarHabitacion(String p1)
+        public void BuscarHabitacion()
         {
 
         }
 
-        public void BuscarMedico()
+        public Medico BuscarMedico(Paciente paciente)
         {
-
+            for (int i = 0; i < this.Medicos.Count; i++)
+            {
+                if (this.Medicos[i].DNI == paciente.NSIP)
+                {
+                    return this.Medicos[i];
+                }
+            }
+            return null;
         }
 
-        public void AsignarHabitacion()
+        public Boolean AsignarHabitacion(Habitacion habitacion)
         {
-
+            for (int i = 0; i < this.Habitaciones.Count; i++)
+            {
+                if (this.Habitaciones[i].Ocupada == false && this.Habitaciones[i].Especialidad == habitacion.Especialidad)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void AsignarMedico()
         {
+            int primerValor = this.Medicos[0].CargaPacientes();
 
+            for (int i = 0; i < this.Medicos.Count; i++)
+            {
+                if (primerValor < this.Medicos[i].CargaPacientes())
+                {
+                    // Implementar.
+                }
+
+                for (int j = 0; j < this.Medicos.Count; j++)
+                {
+                    if (this.Medicos[i].CargaPacientes() == this.Medicos[j].CargaPacientes() && i != j)
+                    {
+                        if ((this.Medicos[i].Nombre.Length < this.Medicos[j].Nombre.Length) && (this.Medicos[i].Apellidos.Length < this.Medicos[j].Apellidos.Length) && (i != j))
+                        {
+                            // Implementar.
+                        }
+                    }
+                }
+            }
         }
 
-        public void PacientesListosParaAlta()
+        /* public List<Paciente> PacientesListosParaAlta()
         {
+            List<Paciente> listaPacientesCurados = new List<Paciente>();
 
-        }
+            for (int i = 0; i < this.Medicos.Count; i++)
+            {
+                listaPacientesCurados.Add(this.Medicos[i].CargaPacientes());
+            }
+        } */
 
         #endregion
 

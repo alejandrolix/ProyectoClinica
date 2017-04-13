@@ -11,20 +11,22 @@ namespace ProgramaClinica
     {
         #region Atributo y Propiedad
         
-        private enum Especialidad
+        private enum EnumEspecialidad
         {
             Alergología, AnestesiologíayReanimación, Cardiología, Dermatología, Endocrinología, Gastroenterología, Geriatría, Ginecología, HematologíaYHemoterapia, HidrologíaMedica, Infectología, MedicinaAeroespacial, MedicinaDelDeporte, MedicinaDelTrabajo, MedicinaDeUrgencias, MedicinaFamiliarYComunitaria, MedicinaFísicaYRehabilitación, MedicinaIntensiva, MedicinaInterna, MedicinaLegalYForense, MedicinaPaliativa, MedicinaPreventivaYSaludPública, Nefrología, Neonatología, Neumología, Neurología, Nutriología, ObstetriciaespecialidadMédicaYObstetriciamatronería, Oftalmología, OncologíaMédica, OncologíaRadioterápica, Pediatría, Psiquiatría, Rehabilitación, Reumatología, ToxicologíaYUrología
         }
+        private String _Especialidad;
 
-        /* public String Especialidad
-        {
-            get { return LeeEnum(especialidad); }
-        } */
+        public String Especialidad 
+        {            
+            get { return Enum.GetName(typeof(EnumEspecialidad), this._Especialidad); }
+            set { this._Especialidad = value; }
+        }        
         
         #endregion
 
 
-        #region Métodos
+        #region Métodos        
 
         public void Diagnosticar()
         {
@@ -36,14 +38,23 @@ namespace ProgramaClinica
 
         }
 
-        public void PacientesListosParaAlta()
+        public List<Paciente> PacientesListosParaAlta()
         {
+            List<Paciente> listaPacientesCurados = new List<Paciente>();
 
+            for (int i = 0; i < this.Pacientes.Count; i++)
+            {
+                if (this.Pacientes[i].EstaCurado == true)
+                {
+                    listaPacientesCurados.Add(this.Pacientes[i]);
+                }
+            }
+            return listaPacientesCurados;
         }
 
         public Object LeeEnum(String especialidad)
         {
-            String[] opcionesDisponibles = Enum.GetNames(typeof(Especialidad));
+            String[] opcionesDisponibles = Enum.GetNames(typeof(EnumEspecialidad));
             String especialidadIntroducida;
 
             opcionesDisponibles[1].Insert(0, "Anestesiología y Reanimación"); opcionesDisponibles[8].Insert(0, "Hematología y Hemoterapia");
@@ -57,7 +68,7 @@ namespace ProgramaClinica
 
             while (true)
             {
-                if (!Enum.IsDefined(typeof(Especialidad), especialidad))
+                if (!Enum.IsDefined(typeof(EnumEspecialidad), especialidad))
                 {
                     for (int i = 0; i < opcionesDisponibles.Length; i++)
                     {
@@ -69,7 +80,8 @@ namespace ProgramaClinica
                 }
                 else
                 {
-                    return (Especialidad)Enum.Parse(typeof(Especialidad), especialidad);
+                    this.Especialidad = Enum.GetName(typeof(EnumEspecialidad), especialidad);
+                    return (EnumEspecialidad)Enum.Parse(typeof(EnumEspecialidad), especialidad);
                 }
             }
         }

@@ -45,19 +45,27 @@ namespace ProgramaClinica
 
         #region Métodos
 
-        public void AnnadirPaciente()
+        public void AnnadirPaciente(Paciente paciente)
         {
+            this.Pacientes.Add(paciente);
+            Console.Clear();
+            Console.WriteLine("Paciente añadido.");
 
+            System.Threading.Thread.Sleep(4000);
         }
 
-        public void QuitarPaciente()
+        public void QuitarPaciente(Paciente paciente)
         {
+            this.Pacientes.Remove(paciente);
+            Console.Clear();
+            Console.WriteLine("Paciente eliminado.");
 
+            System.Threading.Thread.Sleep(4000);
         }
 
-        public void CargaPacientes()
+        public int CargaPacientes()
         {
-
+            return this.Pacientes.Count;
         }
 
         #endregion

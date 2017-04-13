@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProgramaClinica
 {
+    [Serializable]
     class Tratamiento
     {
         #region Atributo y Propiedad
@@ -22,6 +23,11 @@ namespace ProgramaClinica
 
 
         #region Métodos
+
+        public override string ToString()
+        {
+            return String.Format("Datos Tratamiento \n Descripción: {1} \n", this.Descripcion);
+        }
 
         #endregion
 

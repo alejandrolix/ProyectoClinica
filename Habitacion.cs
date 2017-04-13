@@ -6,23 +6,18 @@ using System.Threading.Tasks;
 
 namespace ProgramaClinica
 {
+    [Serializable]
     class Habitacion
     {
         #region Atributos y Propiedades
 
-        private static int _SiguienteNumero;
         private int _Numero;
         private Boolean _Ocupada;
-        private enum Especialidad
+        private enum EnumEspecialidad
         {
             Alergología, AnestesiologíayReanimación, Cardiología, Dermatología, Endocrinología, Gastroenterología, Geriatría, Ginecología, HematologíaYHemoterapia, HidrologíaMedica, Infectología, MedicinaAeroespacial, MedicinaDelDeporte, MedicinaDelTrabajo, MedicinaDeUrgencias, MedicinaFamiliarYComunitaria, MedicinaFísicaYRehabilitación, MedicinaIntensiva, MedicinaInterna, MedicinaLegalYForense, MedicinaPaliativa, MedicinaPreventivaYSaludPública, Nefrología, Neonatología, Neumología, Neurología, Nutriología, ObstetriciaespecialidadMédicaYObstetriciamatronería, Oftalmología, OncologíaMédica, OncologíaRadioterápica, Pediatría, Psiquiatría, Rehabilitación, Reumatología, ToxicologíaYUrología
         }
-
-        public int SiguienteNumero
-        {
-            get { return Habitacion._SiguienteNumero; }
-            set { Habitacion._SiguienteNumero = value; }
-        }
+        private String _Especialidad;        
 
         public int Numero
         {
@@ -30,19 +25,15 @@ namespace ProgramaClinica
             set { this._Numero = value; }
         }
 
-        public String Ocupada
+        public Boolean Ocupada
         {
-            get
-            {
-                if (this._Ocupada == true)
-                {
-                    return "Ocupada";
-                }
-                else
-                {
-                    return "Libre";
-                }
-            }            
+            get { return this._Ocupada; }      
+        }
+
+        public String Especialidad
+        {
+            get { return this._Especialidad; }
+            set { this._Especialidad = value; }
         }
 
         #endregion
@@ -52,8 +43,8 @@ namespace ProgramaClinica
 
         public Object LeeEnum(String especialidad)
         {
-            String[] opcionesDisponibles = Enum.GetNames(typeof(Especialidad));
-            String especialidadIntroducida;
+            String[] opcionesDisponibles = Enum.GetNames(typeof(EnumEspecialidad));
+            String especialidadIntroducida;            
 
             opcionesDisponibles[1].Insert(0, "Anestesiología y Reanimación"); opcionesDisponibles[8].Insert(0, "Hematología y Hemoterapia");
             opcionesDisponibles[11].Insert(0, "Medicina Aeroespacial"); opcionesDisponibles[12].Insert(0, "Medicina del Deporte");
@@ -66,7 +57,7 @@ namespace ProgramaClinica
 
             while (true)
             {
-                if (!Enum.IsDefined(typeof(Especialidad), especialidad))
+                if (!Enum.IsDefined(typeof(EnumEspecialidad), especialidad))
                 {
                     for (int i = 0; i < opcionesDisponibles.Length; i++)
                     {
@@ -77,40 +68,72 @@ namespace ProgramaClinica
                     especialidadIntroducida = Console.ReadLine();
                 }
                 else
-                {
-                    return (Especialidad)Enum.Parse(typeof(Especialidad), especialidad);
+                {                    
+                    this.Especialidad = (String)Enum.Parse(typeof(EnumEspecialidad), especialidad);
+                    return (EnumEspecialidad)Enum.Parse(typeof(EnumEspecialidad), especialidad);
                 }
             }
         }
 
         public void IngresarPaciente()
         {
-
+            this._Ocupada = true;
         }
 
         public void QuitarPaciente()
         {
-
+            this._Ocupada = false;
         }
 
-        public void BorrarHabitacion()
+        public void BorrarHabitacion(Habitacion habitacion)
         {
-
+            habitacion = null;
         }
 
         public void AnnadirHabitacion()
         {
+            String especialidadIntroducida;            
 
+            Console.WriteLine("Introduce una especialidad: ");
+            especialidadIntroducida = Console.ReadLine();
+
+            LeeEnum(especialidadIntroducida);
+
+            Habitacion habitacion = new Habitacion(this.Numero++, false, especialidadIntroducida);
         }
 
-        public void MostrarEspecialidad()
+        public void MostrarEspecialidad(Habitacion habitacion)
         {
-
+            Console.Clear();
+            Console.WriteLine("Especialidad: " + habitacion.Especialidad);            
         }
 
-        public void CambiarEspecialidad()
+        public void CambiarEspecialidad(Habitacion habitacion)
         {
+            String especialidadIntroducida;
 
+            if (this.Numero == habitacion.Numero && this.Ocupada == habitacion.Ocupada)
+            {
+                Console.Clear();
+                Console.Write("Introduce la nueva especialidad: ");
+                especialidadIntroducida = Console.ReadLine();
+
+                LeeEnum(especialidadIntroducida);
+
+                Console.Clear();
+                Console.WriteLine("Especialidad cambiada.");
+                System.Threading.Thread.Sleep(4000);
+
+                Console.Clear();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Error, no se ha podido cambiar la especialidad.");
+                System.Threading.Thread.Sleep(4000);
+
+                Console.Clear();
+            }
         }
 
         #endregion
