@@ -54,9 +54,9 @@ namespace ProgramaClinica
             }
         }
 
-        public void Tratar()
+        public void Tratar(String tratamientoIntroducido)
         {
-            this.Tratamiento = new Tratamiento();
+            this.Tratamiento = new Tratamiento(tratamientoIntroducido);
         }
 
         public Object LeeEnum(String tipoDiagnostico)

@@ -117,72 +117,154 @@ namespace ProgramaClinica
             }
         }
 
-        public void MostrarDatosPaciente()
-        {
-            Console.Clear();
-            Console.WriteLine(this);
-            Console.WriteLine("Pulsa cualquier tecla para continuar...");
+        public void MostrarDatosPaciente(Paciente paciente)
+        {            
+            String nispIntroducido;
+            Boolean repetirNISP = true;
 
-            Console.ReadKey();
-            Console.Clear();
-        }
-
-        public void Diagnostico()
-        {
-            int numIntroducido;
-            Boolean repetirNum = true;
-
-            while (repetirNum)
+            while (repetirNISP)
             {
                 Console.Clear();
-                Console.Write("1. Mostrar Historial Diagnósticos \n 2. Mostrar Último Diagnóstico \n\n Introduce un número: ");
-                numIntroducido = int.Parse(Console.ReadLine());
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
 
-                if (numIntroducido >= 1 && numIntroducido <= 6)
+                if (nispIntroducido == "")
                 {
-                    switch (numIntroducido)
-                    {
-                        case 1:
-                            #region Código
-
-                            Console.Clear();
-
-                            for (int i = 0; i < this.Diagnosticos.Count; i++)
-                            {
-                                Console.Write("Diagnóstico: " + (i + 1) + "\n\n");
-                                Console.WriteLine(this.Diagnosticos[i] + "\n");
-                            }
-
-                            #endregion
-
-                            break;
-
-                        case 2:
-
-                            MostrarUltimoDiagnostico();
-                            break;
-                    }
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);
                 }
                 else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Error, no has introducido el número correcto.");
-                    System.Threading.Thread.Sleep(5000);
+                {                    
+                    if (nispIntroducido == paciente.NSIP)
+                    {
+                        repetirNISP = false;
 
-                    Console.Clear();
+                        Console.Clear();
+                        Console.WriteLine(paciente);
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error, no has introducido el número correcto.");
+                        System.Threading.Thread.Sleep(5000);
+
+                        Console.Clear();
+                    }
                 }
             }
-
         }
 
-        public void Tratamiento()
+        public void Diagnostico(Paciente paciente)
         {
-            Console.Clear();
-
-            for (int i = 0; i < this.Diagnosticos.Count; i++)
+            int numIntroducido;
+            Boolean repetirNum = true, repetirNISP = true;
+            String nispIntroducido;            
+            
+            while (repetirNISP)
             {
-                Console.Write("Trtatamiento: " + (i + 1) + "\n\n");
-                Console.WriteLine(this.Diagnosticos[i].Tratamiento + "\n");
+                Console.Clear();
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
+
+                if (nispIntroducido == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);
+                }
+                else
+                {                    
+                    if (nispIntroducido == paciente.NSIP)
+                    {                        
+                        while (repetirNum)
+                        {
+                            Console.Clear();
+                            Console.Write("1. Mostrar Historial Diagnósticos \n 2. Mostrar Último Diagnóstico \n\n Introduce un número: ");
+                            numIntroducido = int.Parse(Console.ReadLine());
+
+                            if (numIntroducido >= 1 && numIntroducido <= 6)
+                            {
+                                repetirNISP = false;
+
+                                switch (numIntroducido)
+                                {
+                                    case 1:
+                                        #region Código
+
+                                        Console.Clear();
+
+                                        for (int i = 0; i < this.Diagnosticos.Count; i++)
+                                        {
+                                            Console.Write("Diagnóstico: " + (i + 1) + "\n\n");
+                                            Console.WriteLine(this.Diagnosticos[i] + "\n");
+                                        }
+
+                                        #endregion
+
+                                        break;
+
+                                    case 2:
+
+                                        MostrarUltimoDiagnostico();
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Error, no has introducido el número correcto.");
+                                System.Threading.Thread.Sleep(5000);
+
+                                Console.Clear();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error, el N.S.I.P. introducido no coincide con ningún paciente.");
+                        System.Threading.Thread.Sleep(5000);
+                    }
+                }
+            }            
+        }
+
+        public void Tratamiento(Paciente paciente)
+        {            
+            Boolean repetirNISP = true;
+            String nispIntroducido;
+
+            while (repetirNISP)
+            {
+                Console.Clear();
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
+
+                if (nispIntroducido == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);
+                }
+                else
+                {                    
+                    if (nispIntroducido == paciente.NSIP)
+                    {
+                        repetirNISP = false;
+                        for (int i = 0; i < this.Diagnosticos.Count; i++)
+                        {
+                            Console.Write("Trtatamiento: " + (i + 1) + "\n\n");
+                            Console.WriteLine(this.Diagnosticos[i].Tratamiento + "\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error, el N.S.I.P. introducido no coincide con ningún paciente.");
+                        System.Threading.Thread.Sleep(5000);
+                    }
+                }
             }
         }
 
@@ -210,7 +292,7 @@ namespace ProgramaClinica
             if (this.Habitacion.Numero == habitacion.Numero)
             {
                 Console.Clear();
-                Console.WriteLine("Especialidad: " + this.Habitacion.Especialidad);
+                Console.WriteLine("Especialidad: " + this.Habitacion.Especialidad + "\n");
 
                 Console.WriteLine("Pulsa una tecla para continuar...");
                 Console.ReadKey();
@@ -224,6 +306,131 @@ namespace ProgramaClinica
                 System.Threading.Thread.Sleep(4000);
 
                 Console.Clear();
+            }
+        }
+
+        public void BuscarHabitacion(Paciente paciente)
+        {
+            String nispIntroducido;
+            Boolean repetirNISP = true;
+
+            while (repetirNISP)
+            {
+                Console.Clear();
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
+
+                if (nispIntroducido == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);                    
+                }
+                else
+                {                   
+                    if (nispIntroducido == paciente.NSIP)
+                    {
+                        repetirNISP = false;
+
+                        Console.Clear();
+                        Console.WriteLine("Habitación: " + this.Habitacion.Numero + "\n");
+
+                        Console.WriteLine("Pulsa una tecla para continuar...");
+                        Console.ReadKey();
+
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Error, el N.S.I.P. introducido no coincide con ningún paciente.");
+                        System.Threading.Thread.Sleep(5000);
+                    }
+                }
+            }
+        }
+
+        public void BuscarMedico(Paciente paciente, Clinica clinica)
+        {
+            String nispIntroducido;
+            Boolean repetirNISP = true;
+
+            while (repetirNISP)
+            {
+                Console.Clear();
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
+
+                if (nispIntroducido == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);
+                }
+                else
+                {
+                    repetirNISP = false;
+
+                    for (int i = 0; i < clinica.Medicos.Count; i++)
+                    {
+                        if (paciente.NSIP == clinica.Medicos[i].Pacientes[i].NSIP)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Médico/a: " + clinica.Medicos[i].Nombre + " " + clinica.Medicos[i].Apellidos + "\n");
+
+                            Console.WriteLine("Pulsa una tecla para continuar...");
+                            Console.ReadKey();
+
+                            Console.Clear();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void BajaPaciente(Paciente paciente)
+        {
+            String nispIntroducido;
+            Boolean repetirNISP = true;
+            Char letraIntroducida;
+
+            while (repetirNISP)
+            {
+                Console.Clear();
+                Console.Write("Introduce el N.S.I.P. del paciente:");
+                nispIntroducido = Console.ReadLine();
+
+                if (nispIntroducido == "")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Error, tienes que introducir un N.I.S.P.");
+                    System.Threading.Thread.Sleep(4000);
+                }
+                else
+                {
+                    repetirNISP = false;
+
+                    Console.WriteLine(this.Diagnosticos[this.Diagnosticos.Count - 1]);
+
+                    if (this.Diagnosticos[this.Diagnosticos.Count - 1].TipoDiagnostico == "Alta")
+                    {
+                        Console.Write("\n\n Pulsa la tecla 'a' para dar de alta al paciente: ");
+                        letraIntroducida = Char.Parse(Console.ReadLine());
+
+                        if (char.IsUpper(letraIntroducida))
+                        {
+                            letraIntroducida = char.ToLower(letraIntroducida);
+                        }
+
+                        Console.Clear();                        
+                        paciente.Habitacion.Ocupada = false;
+                        paciente = null;
+
+                        Console.WriteLine("Paciente dado de alta.");
+                        System.Threading.Thread.Sleep(4000);
+                        Console.Clear();
+                    }
+                }
             }
         }
 
