@@ -81,7 +81,7 @@ namespace ProgramaClinica
                                 else
                                 {
                                     repetirTipoDiagn = false;
-                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Add(new Diagnostico(descripcionIntroducida, tipoDiagnIntroducido, new Tratamiento()));
+                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Add(new Diagnostico(descripcionIntroducida, tipoDiagnIntroducido, new Tratamiento()));                                    
 
                                     Console.Clear();
                                     Console.WriteLine("Diagnóstico Añadido. \n");
@@ -115,7 +115,10 @@ namespace ProgramaClinica
                                                 else
                                                 {
                                                     repetirTratamiento = false;
-                                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Add(new Diagnostico(descripcionIntroducida, tipoDiagnIntroducido, new Tratamiento(descripcionIntroducida)));
+
+                                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos[this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Count - 1].Descripcion = descripcionIntroducida;
+                                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos[this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Count - 1].TipoDiagnostico = tipoDiagnIntroducido;
+                                                    this.Pacientes[this.Pacientes.Count - 1].Diagnosticos[this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Count - 1].Tratamiento = new Tratamiento(descripcionIntroducida);                                                    
 
                                                     if (this.Pacientes[this.Pacientes.Count - 1].Diagnosticos.Count > 2)
                                                     {

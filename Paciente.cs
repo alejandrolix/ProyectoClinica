@@ -194,10 +194,10 @@ namespace ProgramaClinica
 
                                         Console.Clear();
 
-                                        for (int i = 0; i < this.Diagnosticos.Count; i++)
+                                        for (int i = 0; i < paciente.Diagnosticos.Count; i++)
                                         {
                                             Console.Write("Diagnóstico: " + (i + 1) + "\n\n");
-                                            Console.WriteLine(this.Diagnosticos[i] + "\n");
+                                            Console.WriteLine(paciente.Diagnosticos[i] + "\n");
                                         }
 
                                         #endregion
@@ -252,10 +252,10 @@ namespace ProgramaClinica
                     if (nispIntroducido == paciente.NSIP)
                     {
                         repetirNISP = false;
-                        for (int i = 0; i < this.Diagnosticos.Count; i++)
+                        for (int i = 0; i < paciente.Diagnosticos.Count; i++)
                         {
                             Console.Write("Trtatamiento: " + (i + 1) + "\n\n");
-                            Console.WriteLine(this.Diagnosticos[i].Tratamiento + "\n");
+                            Console.WriteLine(paciente.Diagnosticos[i].Tratamiento + "\n");
                         }
                     }
                     else

@@ -20,25 +20,18 @@ namespace ProgramaClinica
             get { return this._Nombre; }
             set { this._Nombre = value; }
         }
-
         public String Password
         {
             get { return this._Password; }
             set { this._Password = value; }
         }
-
         public int Numero
         {
             get { return this._Numero; }
             set { this._Numero = value; }
         }
 
-        #endregion
-        
-
-        #region Métodos
-
-        #endregion
+        #endregion                
 
 
         #region Constructor

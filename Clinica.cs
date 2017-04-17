@@ -18,19 +18,18 @@ namespace ProgramaClinica
         private List<Medico> _Medicos;
         private List<Enfermero> _Enfermeros;
         private List<Habitacion> _Habitaciones;
+        private List<Usuario> _Usuarios;
 
         public String Direccion
         {
             get { return this._Direccion; }
             set { this._Direccion = value; }
         }
-
         public String Nombre
         {
             get { return this._Nombre; }
             set { this._Nombre = value; }
         }
-
         public String Telefono
         {
             get { return this._Telefono; }
@@ -55,23 +54,25 @@ namespace ProgramaClinica
                 }
             }
         }
-
         public List<Medico> Medicos
         {
             get { return this._Medicos; }
             set { this._Medicos = value; }
         }
-
         public List<Enfermero> Enfermeros
         {
             get { return this._Enfermeros; }
             set { this._Enfermeros = value; }
         }
-
         public List<Habitacion> Habitaciones
         {
             get { return this._Habitaciones; }
             set { this._Habitaciones = value; }
+        }
+        public List<Usuario> Usuarios
+        {
+            get { return this._Usuarios; }
+            set { this._Usuarios = value; }
         }
 
         #endregion
@@ -383,6 +384,11 @@ namespace ProgramaClinica
             }
         } */
 
+        public void AnnadirUsuario(Usuario usuario)
+        {
+            this.Usuarios.Add(usuario);
+        }
+
         #endregion
 
 
@@ -393,7 +399,7 @@ namespace ProgramaClinica
 
         }
 
-        public Clinica(String direccion, String nombre, String telefono)
+        public Clinica(String direccion, String nombre, String telefono, List<Usuario> listaUsuarios)
         {
             this.Direccion = direccion;
             this.Nombre = nombre;
@@ -402,6 +408,7 @@ namespace ProgramaClinica
             this.Medicos = new List<Medico>();
             this.Enfermeros = new List<Enfermero>();
             this.Habitaciones = new List<Habitacion>();
+            this.Usuarios = new List<Usuario>();
         }
 
         public Clinica(Clinica obj)
@@ -412,6 +419,7 @@ namespace ProgramaClinica
             this.Medicos = obj.Medicos;
             this.Enfermeros = obj.Enfermeros;
             this.Habitaciones = obj.Habitaciones;
+            this.Usuarios = obj.Usuarios;
         }
 
         #endregion
