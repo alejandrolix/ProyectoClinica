@@ -17,8 +17,7 @@ namespace ProgramaClinica
         private String _Telefono;
         private List<Medico> _Medicos;
         private List<Enfermero> _Enfermeros;
-        private List<Habitacion> _Habitaciones;
-        private List<Usuario> _Usuarios;
+        private List<Habitacion> _Habitaciones;        
 
         public String Direccion
         {
@@ -63,12 +62,7 @@ namespace ProgramaClinica
         {
             get { return this._Habitaciones; }
             set { this._Habitaciones = value; }
-        }
-        public List<Usuario> Usuarios
-        {
-            get { return this._Usuarios; }
-            set { this._Usuarios = value; }
-        }
+        }        
 
         #endregion
 
@@ -377,12 +371,7 @@ namespace ProgramaClinica
             {
                 listaPacientesCurados.Add(this.Medicos[i].CargaPacientes());
             }
-        } */
-
-        public void AnnadirUsuario(Usuario usuario)
-        {
-            this.Usuarios.Add(usuario);
-        }
+        } */        
 
         #endregion
 
@@ -402,8 +391,7 @@ namespace ProgramaClinica
 
             this.Medicos = new List<Medico>();
             this.Enfermeros = new List<Enfermero>();
-            this.Habitaciones = new List<Habitacion>();
-            this.Usuarios = new List<Usuario>();
+            this.Habitaciones = new List<Habitacion>();            
         }
 
         public Clinica(Clinica obj)
@@ -413,8 +401,7 @@ namespace ProgramaClinica
             this.Telefono = obj.Telefono;
             this.Medicos = obj.Medicos;
             this.Enfermeros = obj.Enfermeros;
-            this.Habitaciones = obj.Habitaciones;
-            this.Usuarios = obj.Usuarios;
+            this.Habitaciones = obj.Habitaciones;            
         }
 
         #endregion

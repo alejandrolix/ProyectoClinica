@@ -11,21 +11,12 @@ namespace ProgramaClinica
 {
     class Program
     {
-        static Clinica clinica = new Clinica(@"C.\ Los Almendros, 34", "Medimar", "123456789", new List<Usuario>());        
-        static Clinica datosClinica;        
+        #region Variables Globales
 
-        /* static void AnnadirUsuarios()
-        {
-            clinica.Usuarios.Add(new Usuario("Administrador", "Administrador", 0));
-            clinica.Usuarios.Add(new Usuario("Gestor", "Gestor", 1));
-            clinica.Usuarios.Add(new Usuario("Medico", "Medico", 2));
-            clinica.Usuarios.Add(new Usuario("Enfermero", "Enfermero", 3));
+        static Clinica datosClinica;
+        static List<Usuario> listaUsuarios = new List<Usuario>();
 
-            for (int i = 0; i < clinica.Usuarios.Count; i++)
-            {
-                clinica.Usuarios[i].GuardarUsuarioEnArchivo(clinica.Usuarios[i]);
-            }
-        } */
+        #endregion        
 
         static void Login()
         {
@@ -115,6 +106,7 @@ namespace ProgramaClinica
                         if (passwordIntroducida == passwordAdmin.Password)
                         {
                             repetirPassword = false;
+                            MenuPrincipal(passwordAdmin);
                         }
                         else
                         {
@@ -129,9 +121,9 @@ namespace ProgramaClinica
                     }
                 }                               
 
-                for (int i = 0; i < clinica.Usuarios.Count && romperBucle; i++)
+                for (int i = 0; i < listaUsuarios.Count && romperBucle; i++)
                 {
-                    if ((usuarioIntroducido == clinica.Usuarios[i].Nombre && passwordIntroducida == clinica.Usuarios[i].Password) || (usuarioIntroducido == clinica.Usuarios[i].Nombre && passwordIntroducida == passwordAdmin.Password))
+                    if ((usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == listaUsuarios[i].Password) || (usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == passwordAdmin.Password))
                     {
                         // Liberamos memoria RAM.
                         usuarioIntroducido = null; passwordIntroducida = null; listaTeclas = null;
@@ -139,7 +131,7 @@ namespace ProgramaClinica
                         repetirLogin = false;
                         romperBucle = false;
 
-                        infoUsuarioLogueado = new Usuario(usuarioIntroducido, passwordIntroducida, clinica.Usuarios[i].Numero);
+                        infoUsuarioLogueado = new Usuario(usuarioIntroducido, passwordIntroducida, listaUsuarios[i].Numero);
                         MenuPrincipal(infoUsuarioLogueado);
                     }
                 }
@@ -201,7 +193,7 @@ namespace ProgramaClinica
                                             {
                                                 for (int i = 0; i < pacientes.Count; i++)
                                                 {
-                                                    pacientes[i].IngresarPaciente(clinica);
+                                                    pacientes[i].IngresarPaciente(datosClinica);
 
                                                     Console.Clear();
                                                     Console.WriteLine("Paciente Ingresado.");
@@ -226,7 +218,7 @@ namespace ProgramaClinica
                                             {
                                                 for (int i = 0; i < pacientes.Count; i++)
                                                 {
-                                                    if (pacientes[i].AltaPaciente(clinica) == true)
+                                                    if (pacientes[i].AltaPaciente(datosClinica) == true)
                                                     {
                                                         Console.Clear();
                                                         Console.WriteLine("Paciente dado de Alta.");
@@ -313,7 +305,7 @@ namespace ProgramaClinica
 
                                             if (infoUsuarioLogueado.Numero == 2 || infoUsuarioLogueado.Numero == 3)
                                             {
-                                                pacientes[0].BuscarMedico(pacientes[0], clinica);
+                                                pacientes[0].BuscarMedico(pacientes[0], datosClinica);
                                             }
                                             else
                                             {
@@ -609,16 +601,14 @@ namespace ProgramaClinica
 
                             datosClinica = (Clinica)formatear.Deserialize(archivo2);
 
-                            archivo2.Close();
-
-                            datosClinica.Usuarios.Clear();
+                            archivo2.Close();                            
 
                             FileStream archivo3 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Open, FileAccess.Read);
 
                             while (archivo3.Position < archivo3.Length)
                             {
                                 datosUsuarioLeido = (Usuario)formatear.Deserialize(archivo3);
-                                datosClinica.Usuarios.Add(datosUsuarioLeido);
+                                listaUsuarios.Add(datosUsuarioLeido);
                             }                            
 
                             archivo3.Close();
@@ -632,9 +622,15 @@ namespace ProgramaClinica
 
                             FileStream archivo1 = new FileStream(@".\..\..\Archivos\DatosClinica.DAT", FileMode.OpenOrCreate, FileAccess.Write);
 
-                            formatear.Serialize(archivo1, clinica);
+                            formatear.Serialize(archivo1, datosClinica);
 
                             archivo1.Close();
+
+                            FileStream archivo4 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.OpenOrCreate, FileAccess.Write);
+
+                            formatear.Serialize(archivo4, listaUsuarios);
+
+                            archivo4.Close();
 
                             Console.Clear();
                             Console.WriteLine("Datos Guardados.");
@@ -761,12 +757,8 @@ namespace ProgramaClinica
                                 passwordIntroducida += listaTeclas[i];
                             }
 
-                            FileStream archivo = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Append, FileAccess.Write);
-
-                            Usuario gestor = new Usuario(usuarioIntroducido, passwordIntroducida, 1);
-                            formatear.Serialize(archivo, gestor);
-
-                            archivo.Close();
+                            listaUsuarios.Add(new Usuario(usuarioIntroducido, passwordIntroducida, 1));
+                            listaUsuarios.Sort();
 
                             // Liberamos memoria RAM.
                             passwordIntroducida = null;
@@ -815,12 +807,8 @@ namespace ProgramaClinica
                                 passwordIntroducida += listaTeclas[i];
                             }
 
-                            FileStream archivo1 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Append, FileAccess.Write);
-
-                            Usuario medico = new Usuario(usuarioIntroducido, passwordIntroducida, 2);
-                            formatear.Serialize(archivo1, medico);
-
-                            archivo1.Close();
+                            listaUsuarios.Add(new Usuario(usuarioIntroducido, passwordIntroducida, 2));
+                            listaUsuarios.Sort();                            
 
                             // Liberamos memoria RAM.
                             passwordIntroducida = null;
@@ -869,12 +857,8 @@ namespace ProgramaClinica
                                 passwordIntroducida += listaTeclas[i];
                             }
 
-                            FileStream archivo2 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Append, FileAccess.Write);
-
-                            Usuario enfermero = new Usuario(usuarioIntroducido, passwordIntroducida, 3);
-                            formatear.Serialize(archivo2, enfermero);
-
-                            archivo2.Close();
+                            listaUsuarios.Add(new Usuario(usuarioIntroducido, passwordIntroducida, 3));
+                            listaUsuarios.Sort();                            
 
                             // Liberamos memoria RAM.
                             passwordIntroducida = null;
@@ -906,8 +890,7 @@ namespace ProgramaClinica
         static void EliminarUsuario(Usuario infoUsuarioLogueado)
         {
             String usuarioIntroducido, passwordIntroducida = "";
-            Boolean repetirNombre = true, repetirPassword = true, repetirCaracPass = true;
-            Usuario datosUsuarioLeido;
+            Boolean repetirNombre = true, repetirPassword = true, repetirCaracPass = true;            
             IFormatter formatear = new BinaryFormatter();            
             ConsoleKeyInfo caracPasswordIntroducida;            
             List<Char> listaTeclas = new List<char>();            
@@ -970,36 +953,27 @@ namespace ProgramaClinica
                     else
                     {
                         repetirPassword = false;
-                        FileStream archivo = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Open, FileAccess.Read);
 
-                        while (archivo.Position < archivo.Length)
+                        for (int i = 0; i < listaUsuarios.Count; i++)
                         {
-                            datosUsuarioLeido = (Usuario)formatear.Deserialize(archivo);
+                            if (listaUsuarios[i].Nombre == usuarioIntroducido && listaUsuarios[i].Password == passwordIntroducida)
+                            {
+                                listaUsuarios.RemoveAt(i);
 
-                            if (datosUsuarioLeido.Nombre == usuarioIntroducido && datosUsuarioLeido.Password == passwordIntroducida)
-                            {                                
-                                archivo.Close();
-
-                                File.Delete(@".\Archivos\usuarios.pas");
-                                FileStream archivo1 = new FileStream(@".\Archivos\usuarios.pas", FileMode.Create, FileAccess.Write);
-
-                                formatear.Serialize(archivo1, datosUsuarioLeido);
-
-                                archivo1.Close();
+                                Console.Clear();
+                                Console.WriteLine("Se ha eliminado el usuario.");
+                                System.Threading.Thread.Sleep(4000);
                                 Console.Clear();
 
-                                Console.WriteLine("Usuario Eliminado.");
-
-                                System.Threading.Thread.Sleep(4000);
-                                SubMenu2(infoUsuarioLogueado);
+                                break;
                             }
-                        }
+                        }                        
 
-                        Console.Clear();
+                        /* Console.Clear();
                         Console.WriteLine("Error, los datos introducidos del usuario no existen. ");
                         System.Threading.Thread.Sleep(5000);
 
-                        repetirNombre = true; repetirPassword = true;
+                        repetirNombre = true; repetirPassword = true; */
                     }
                 }
             }
@@ -1040,19 +1014,19 @@ namespace ProgramaClinica
                                         switch (numIntroducido)
                                         {
                                             case 1:
-                                                clinica.AnnadirMedico();
+                                                datosClinica.AnnadirMedico();
                                                 break;
 
                                             case 2:
-                                                clinica.BorrarMedico();
+                                                datosClinica.BorrarMedico();
                                                 break;
 
                                             case 3:
-                                                clinica.AnnadirEnfermero();
+                                                datosClinica.AnnadirEnfermero();
                                                 break;
 
                                             case 4:
-                                                clinica.BorrarEnfermero();
+                                                datosClinica.BorrarEnfermero();
                                                 break;
 
                                             case 5:
@@ -1115,7 +1089,7 @@ namespace ProgramaClinica
                                                     {
                                                         repetirEspecialidad = false;
 
-                                                        clinica.Habitaciones.Add(new Habitacion(1, false, especialidadIntroducida));
+                                                        datosClinica.Habitaciones.Add(new Habitacion(1, false, especialidadIntroducida));
 
                                                         Console.Clear();
                                                         Console.WriteLine("Habitación Añadida.");
@@ -1133,12 +1107,12 @@ namespace ProgramaClinica
                                                 Console.Write("Introduce el número de la habitación: ");
                                                 numHabitacionIntroducido = int.Parse(Console.ReadLine());
 
-                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                for (int i = 0; i < datosClinica.Habitaciones.Count && romperBucle; i++)
                                                 {
-                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    if (datosClinica.Habitaciones[i].Numero == numHabitacionIntroducido)
                                                     {
                                                         romperBucle = false;
-                                                        clinica.Habitaciones.Remove(clinica.Habitaciones[i]);
+                                                        datosClinica.Habitaciones.Remove(datosClinica.Habitaciones[i]);
 
                                                         Console.Clear();
                                                         Console.WriteLine("Habitación eliminada.");
@@ -1157,12 +1131,12 @@ namespace ProgramaClinica
                                                 Console.Write("Introduce el número de la habitación: ");
                                                 numHabitacionIntroducido = int.Parse(Console.ReadLine());
 
-                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                for (int i = 0; i < datosClinica.Habitaciones.Count && romperBucle; i++)
                                                 {
-                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    if (datosClinica.Habitaciones[i].Numero == numHabitacionIntroducido)
                                                     {
                                                         romperBucle = false;
-                                                        clinica.Habitaciones[i].MostrarEspecialidad(clinica.Habitaciones[i]);
+                                                        datosClinica.Habitaciones[i].MostrarEspecialidad(datosClinica.Habitaciones[i]);
                                                         Console.ReadKey();
 
                                                         Console.Clear();
@@ -1180,12 +1154,12 @@ namespace ProgramaClinica
                                                 Console.Write("Introduce el número de la habitación: ");
                                                 numHabitacionIntroducido = int.Parse(Console.ReadLine());
 
-                                                for (int i = 0; i < clinica.Habitaciones.Count && romperBucle; i++)
+                                                for (int i = 0; i < datosClinica.Habitaciones.Count && romperBucle; i++)
                                                 {
-                                                    if (clinica.Habitaciones[i].Numero == numHabitacionIntroducido)
+                                                    if (datosClinica.Habitaciones[i].Numero == numHabitacionIntroducido)
                                                     {
                                                         romperBucle = false;
-                                                        clinica.Habitaciones[i].CambiarEspecialidad(clinica.Habitaciones[i]);
+                                                        datosClinica.Habitaciones[i].CambiarEspecialidad(datosClinica.Habitaciones[i]);
                                                     }
                                                 }
 
@@ -1252,8 +1226,7 @@ namespace ProgramaClinica
             while (repetirPrograma)
             {
                 try
-                {
-                    // AnnadirUsuarios();
+                {                    
                     Login();
 
 
