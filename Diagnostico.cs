@@ -24,13 +24,11 @@ namespace ProgramaClinica
             get { return this._Descripcion; }
             set { this._Descripcion = value; }
         }        
-
         public Tratamiento Tratamiento
         {
             get { return this._Tratamiento; }
             set { this._Tratamiento = value; }
         }
-
         public String TipoDiagnostico
         {
             get { return this._TipoDiagnostico; }

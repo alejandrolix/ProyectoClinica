@@ -35,22 +35,17 @@ namespace ProgramaClinica
             get { return this._Telefono; }
             set
             {
-                Regex patron = new Regex(@"^[0-9]{9}$");
-                Boolean repetirTelefono = true;
+                Regex patron = new Regex(@"^[0-9]{9}$");                
 
-                while (repetirTelefono)
+                if (patron.IsMatch(value))
+                {                    
+                    this._Telefono = value;
+                }
+                else
                 {
-                    if (patron.IsMatch(value))
-                    {
-                        repetirTelefono = false;
-                        this._Telefono = value;
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        Console.WriteLine("Error, el nº de teléfono ha de tener 9 dígitos.");
-                        System.Threading.Thread.Sleep(5000);
-                    }
+                    Console.Clear();
+                    Console.WriteLine("Error, el nº de teléfono ha de tener 9 dígitos.");
+                    System.Threading.Thread.Sleep(5000);
                 }
             }
         }

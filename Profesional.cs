@@ -21,19 +21,16 @@ namespace ProgramaClinica
             get { return this._Nombre; }
             set { this._Nombre = value; }
         }
-
         public String Apellidos
         {
             get { return this._Apellidos; }
             set { this._Apellidos = value; }
         }
-
         public String DNI
         {
             get { return this._DNI; }
             set { this._DNI = value; }
         }
-
         public List<Paciente> Pacientes
         {
             get { return this._Pacientes; }

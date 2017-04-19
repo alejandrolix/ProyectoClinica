@@ -24,13 +24,11 @@ namespace ProgramaClinica
             get { return this._Numero; }
             set { this._Numero = value; }
         }
-
         public Boolean Ocupada
         {
             get { return this._Ocupada; }
             set { this._Ocupada = value; }
         }
-
         public String Especialidad
         {
             get { return this._Especialidad; }

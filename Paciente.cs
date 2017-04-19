@@ -26,43 +26,36 @@ namespace ProgramaClinica
             get { return this._NSIP; }
             set { this._NSIP = value; }
         }
-
         public String Nombre
         {
             get { return this._Nombre; }
             set { this._Nombre = value; }
         }
-
         public String Apellidos
         {
             get { return this._Apellidos; }
             set { this._Apellidos = value; }
         }
-
         public String Sexo
         {
             get { return this._Sexo; }
             set { this._Sexo = value; }
         }
-
         public DateTime FechaNacimiento
         {
             get { return this._FechaNacimiento; }
             set { this._FechaNacimiento = value; }
         }
-
         public ushort Edad
         {
             get { return this._Edad; }
             set { this._Edad = value; }
         }
-
         public List<Diagnostico> Diagnosticos
         {
             get { return this._Diagnosticos; }
             set { this._Diagnosticos = value; }
         }
-
         public Boolean EstaCurado
         {
             get 
@@ -78,7 +71,6 @@ namespace ProgramaClinica
             }
             set { this._EstaCurado = value; }
         }
-
         public Habitacion Habitacion
         {
             get { return this._Habitacion; }
