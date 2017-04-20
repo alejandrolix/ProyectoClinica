@@ -19,6 +19,26 @@ namespace ProgramaClinica
 
         #endregion        
 
+
+        #region Métodos Encriptar y Desencriptar
+
+        static String Encriptar(String cadena)
+        {
+            byte[] datosEncriptados = System.Text.Encoding.Unicode.GetBytes(cadena);
+            return Convert.ToBase64String(datosEncriptados);
+        }
+
+        static String Desencriptar(String cadena)
+        {
+            byte[] datosDesencriptados = Convert.FromBase64String(cadena);
+            return System.Text.Encoding.Unicode.GetString(datosDesencriptados);
+        }
+
+        #endregion
+
+
+        #region Métodos Clínica        
+
         // Método que permite que el usuario inicie sesión en el programa.
         static void Login()
         {
@@ -28,7 +48,7 @@ namespace ProgramaClinica
             List<Char> listaTeclas = new List<Char>();
             Char teclaIntroducida;
             Boolean repetirLogin = true, repetirUsuario = true, repetirPassword = true, romperBucle = true, repetirCaracPass = true;
-            Usuario infoUsuarioLogueado, datosAdmin = null;             
+            Usuario infoUsuarioLogueado, datosAdmin = null;
 
             while (repetirLogin)
             {
@@ -58,10 +78,11 @@ namespace ProgramaClinica
 
                         if (usuarioIntroducido == "Administrador")
                         {
-                            FileStream archivo = new FileStream(@".\..\..\Archivos\admin.pas", FileMode.Open, FileAccess.Read);
+                            FileStream archivo = new FileStream(@".\..\..\Archivos\admin.pas", FileMode.Open, FileAccess.Read);                            
 
                             datosAdmin = (Usuario)formatear.Deserialize(archivo);
-
+                            datosAdmin.Password = Desencriptar(datosAdmin.Password);                            
+                            
                             archivo.Close();
                         }
                     }
@@ -91,7 +112,7 @@ namespace ProgramaClinica
                     for (int i = 0; i < listaTeclas.Count; i++)
                     {
                         passwordIntroducida += listaTeclas[i];
-                    }                    
+                    }
 
                     if (passwordIntroducida == "")
                     {
@@ -104,7 +125,7 @@ namespace ProgramaClinica
                         repetirCaracPass = true;
                     }
                     else
-                    {                        
+                    {
                         if (passwordIntroducida == datosAdmin.Password)
                         {
                             repetirPassword = false;
@@ -121,7 +142,7 @@ namespace ProgramaClinica
                             repetirCaracPass = true; passwordIntroducida = ""; listaTeclas.Clear();
                         }
                     }
-                }                               
+                }
 
                 for (int i = 0; i < listaUsuarios.Count && romperBucle; i++)
                 {
@@ -456,10 +477,10 @@ namespace ProgramaClinica
             Boolean repetirMenu = true, repetirPassword = true, repetirCaracPass = true;
             IFormatter formatear = new BinaryFormatter();
             String passwordIntroducida = "", repePasswordIntroducida = "";
-            ConsoleKeyInfo caracPasswordIntroducida;            
+            ConsoleKeyInfo caracPasswordIntroducida;
             List<Char> listaTeclas = new List<Char>();
             Char teclaIntroducida;
-            Usuario datosUsuarioLeido;
+            Usuario datosUsuario;
 
             while (repetirMenu)
             {
@@ -599,29 +620,39 @@ namespace ProgramaClinica
                             break;
 
                         case 3:
+                            // Cargar Datos.
+
                             #region Código
 
                             FileStream archivo2 = new FileStream(@".\..\..\Archivos\DatosClinica.DAT", FileMode.Open, FileAccess.Read);
 
                             datosClinica = (Clinica)formatear.Deserialize(archivo2);
 
-                            archivo2.Close();                            
+                            archivo2.Close();
 
-                            FileStream archivo3 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Open, FileAccess.Read);
+                            // Cargamos los usuarios en la lista "listaUsuarios".
+                            FileStream archivo3 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Open, FileAccess.Read);                            
 
                             while (archivo3.Position < archivo3.Length)
                             {
-                                datosUsuarioLeido = (Usuario)formatear.Deserialize(archivo3);
-                                listaUsuarios.Add(datosUsuarioLeido);
+                                datosUsuario = (Usuario)formatear.Deserialize(archivo3);
+                                datosUsuario.Password = Desencriptar(datosUsuario.Password);
+                                listaUsuarios.Add(datosUsuario);                               
                             }                            
 
                             archivo3.Close();
+
+                            Console.Clear();
+                            Console.WriteLine("Datos Cargados.");
+                            System.Threading.Thread.Sleep(4000);
 
                             #endregion
 
                             break;
 
                         case 4:
+                            // Guardar Datos.
+
                             #region Código
 
                             FileStream archivo1 = new FileStream(@".\..\..\Archivos\DatosClinica.DAT", FileMode.OpenOrCreate, FileAccess.Write);
@@ -630,9 +661,20 @@ namespace ProgramaClinica
 
                             archivo1.Close();
 
+                            // Guardamos los usuarios de la lista "listaUsuarios".
+
+                            for (int i = 0; i < listaUsuarios.Count; i++)
+                            {
+                                listaUsuarios[i].Password = Encriptar(listaUsuarios[i].Password);                               
+                            }
+
+
                             FileStream archivo4 = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.OpenOrCreate, FileAccess.Write);
 
-                            formatear.Serialize(archivo4, listaUsuarios);
+                            for (int i = 0; i < listaUsuarios.Count; i++)
+                            {
+                                formatear.Serialize(archivo4, listaUsuarios[i]);
+                            }                            
 
                             archivo4.Close();
 
@@ -773,7 +815,7 @@ namespace ProgramaClinica
                             Console.Clear();
 
                             Console.WriteLine("Usuario Añadido.");
-                            System.Threading.Thread.Sleep(4000);                            
+                            System.Threading.Thread.Sleep(4000);
 
                             MenuUsuarios(infoUsuarioLogueado);
 
@@ -814,7 +856,7 @@ namespace ProgramaClinica
                             }
 
                             listaUsuarios.Add(new Usuario(usuarioIntroducido, passwordIntroducida, 2));
-                            listaUsuarios.Sort();                            
+                            listaUsuarios.Sort();
 
                             // Liberamos memoria RAM.
                             passwordIntroducida = null;
@@ -823,7 +865,7 @@ namespace ProgramaClinica
                             Console.Clear();
 
                             Console.WriteLine("Usuario Añadido.");
-                            System.Threading.Thread.Sleep(4000);                            
+                            System.Threading.Thread.Sleep(4000);
 
                             MenuUsuarios(infoUsuarioLogueado);
 
@@ -864,7 +906,7 @@ namespace ProgramaClinica
                             }
 
                             listaUsuarios.Add(new Usuario(usuarioIntroducido, passwordIntroducida, 3));
-                            listaUsuarios.Sort();                            
+                            listaUsuarios.Sort();
 
                             // Liberamos memoria RAM.
                             passwordIntroducida = null;
@@ -873,7 +915,7 @@ namespace ProgramaClinica
                             Console.Clear();
 
                             Console.WriteLine("Usuario Añadido.");
-                            System.Threading.Thread.Sleep(4000);                            
+                            System.Threading.Thread.Sleep(4000);
 
                             MenuUsuarios(infoUsuarioLogueado);
 
@@ -893,15 +935,14 @@ namespace ProgramaClinica
             }
         }
 
-
         // Método que elimina un usuario a la clínica.
         static void EliminarUsuario(Usuario infoUsuarioLogueado)
         {
             String usuarioIntroducido, passwordIntroducida = "";
-            Boolean repetirNombre = true, repetirPassword = true, repetirCaracPass = true;            
-            IFormatter formatear = new BinaryFormatter();            
-            ConsoleKeyInfo caracPasswordIntroducida;            
-            List<Char> listaTeclas = new List<char>();            
+            Boolean repetirNombre = true, repetirPassword = true, repetirCaracPass = true;
+            IFormatter formatear = new BinaryFormatter();
+            ConsoleKeyInfo caracPasswordIntroducida;
+            List<Char> listaTeclas = new List<char>();
             Char teclaIntroducida;
 
             while (repetirNombre)
@@ -975,7 +1016,7 @@ namespace ProgramaClinica
 
                                 break;
                             }
-                        }                        
+                        }
 
                         /* Console.Clear();
                         Console.WriteLine("Error, los datos introducidos del usuario no existen. ");
@@ -1019,7 +1060,7 @@ namespace ProgramaClinica
                                     numIntroducido = int.Parse(Console.ReadLine());
 
                                     if (numIntroducido >= 1 && numIntroducido <= 6)
-                                    {                                        
+                                    {
                                         switch (numIntroducido)
                                         {
                                             case 1:
@@ -1228,6 +1269,9 @@ namespace ProgramaClinica
             }
         }
 
+        #endregion
+        
+
         static void Main(string[] args)
         {
             Boolean repetirPrograma = true;
@@ -1235,7 +1279,7 @@ namespace ProgramaClinica
             while (repetirPrograma)
             {
                 try
-                {                    
+                {                              
                     Login();
 
                     
