@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 
 namespace ProgramaClinica
 {
@@ -18,6 +19,7 @@ namespace ProgramaClinica
 
         #endregion        
 
+        // Método que permite que el usuario inicie sesión en el programa.
         static void Login()
         {
             IFormatter formatear = new BinaryFormatter();
@@ -26,7 +28,7 @@ namespace ProgramaClinica
             List<Char> listaTeclas = new List<Char>();
             Char teclaIntroducida;
             Boolean repetirLogin = true, repetirUsuario = true, repetirPassword = true, romperBucle = true, repetirCaracPass = true;
-            Usuario infoUsuarioLogueado, passwordAdmin = null;             
+            Usuario infoUsuarioLogueado, datosAdmin = null;             
 
             while (repetirLogin)
             {
@@ -58,7 +60,7 @@ namespace ProgramaClinica
                         {
                             FileStream archivo = new FileStream(@".\..\..\Archivos\admin.pas", FileMode.Open, FileAccess.Read);
 
-                            passwordAdmin = (Usuario)formatear.Deserialize(archivo);
+                            datosAdmin = (Usuario)formatear.Deserialize(archivo);
 
                             archivo.Close();
                         }
@@ -103,10 +105,10 @@ namespace ProgramaClinica
                     }
                     else
                     {                        
-                        if (passwordIntroducida == passwordAdmin.Password)
+                        if (passwordIntroducida == datosAdmin.Password)
                         {
                             repetirPassword = false;
-                            MenuPrincipal(passwordAdmin);
+                            MenuPrincipal(datosAdmin);
                         }
                         else
                         {
@@ -123,7 +125,7 @@ namespace ProgramaClinica
 
                 for (int i = 0; i < listaUsuarios.Count && romperBucle; i++)
                 {
-                    if ((usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == listaUsuarios[i].Password) || (usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == passwordAdmin.Password))
+                    if ((usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == listaUsuarios[i].Password) || (usuarioIntroducido == listaUsuarios[i].Nombre && passwordIntroducida == datosAdmin.Password))
                     {
                         // Liberamos memoria RAM.
                         usuarioIntroducido = null; passwordIntroducida = null; listaTeclas = null;
@@ -145,6 +147,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que muestra el menú principal del programa.
         static void MenuPrincipal(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
@@ -163,7 +166,7 @@ namespace ProgramaClinica
                     switch (numIntroducido)
                     {
                         case 1:
-                            SubMenu1(infoUsuarioLogueado);
+                            MenuAdministrador(infoUsuarioLogueado);
                             break;
 
                         case 2:
@@ -446,7 +449,8 @@ namespace ProgramaClinica
             }
         }
 
-        static void SubMenu1(Usuario infoUsuarioLogueado)
+        // Método que muestra el menú con las opciones que puede acceder sólo el usuario "Administrador".
+        static void MenuAdministrador(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
             Boolean repetirMenu = true, repetirPassword = true, repetirCaracPass = true;
@@ -579,7 +583,7 @@ namespace ProgramaClinica
 
                             if (infoUsuarioLogueado.Numero == 0)
                             {
-                                SubMenu2(infoUsuarioLogueado);
+                                MenuUsuarios(infoUsuarioLogueado);
                             }
                             else
                             {
@@ -660,7 +664,8 @@ namespace ProgramaClinica
             }
         }
 
-        static void SubMenu2(Usuario infoUsuarioLogueado)
+        // Método que muestra el menú con las operaciones de añadir y eliminar usuarios.
+        static void MenuUsuarios(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
             Boolean repetirMenu = true;
@@ -688,7 +693,7 @@ namespace ProgramaClinica
                             break;
 
                         case 4:
-                            SubMenu1(infoUsuarioLogueado);
+                            MenuAdministrador(infoUsuarioLogueado);
                             break;
                     }
                 }
@@ -703,6 +708,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que añade un usuario a la clínica.
         static void AnnadirUsuario(Usuario infoUsuarioLogueado)
         {
             int numUsuarioIntroducido;
@@ -769,7 +775,7 @@ namespace ProgramaClinica
                             Console.WriteLine("Usuario Añadido.");
                             System.Threading.Thread.Sleep(4000);                            
 
-                            SubMenu2(infoUsuarioLogueado);
+                            MenuUsuarios(infoUsuarioLogueado);
 
                             #endregion
 
@@ -819,7 +825,7 @@ namespace ProgramaClinica
                             Console.WriteLine("Usuario Añadido.");
                             System.Threading.Thread.Sleep(4000);                            
 
-                            SubMenu2(infoUsuarioLogueado);
+                            MenuUsuarios(infoUsuarioLogueado);
 
                             #endregion
 
@@ -869,7 +875,7 @@ namespace ProgramaClinica
                             Console.WriteLine("Usuario Añadido.");
                             System.Threading.Thread.Sleep(4000);                            
 
-                            SubMenu2(infoUsuarioLogueado);
+                            MenuUsuarios(infoUsuarioLogueado);
 
                             #endregion
 
@@ -887,6 +893,8 @@ namespace ProgramaClinica
             }
         }
 
+
+        // Método que elimina un usuario a la clínica.
         static void EliminarUsuario(Usuario infoUsuarioLogueado)
         {
             String usuarioIntroducido, passwordIntroducida = "";
@@ -979,6 +987,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que muestra el menú de la clínica.
         static void MenuClinica(Usuario infoUsuarioLogueado)
         {
             int numIntroducido;
@@ -1222,17 +1231,14 @@ namespace ProgramaClinica
         static void Main(string[] args)
         {
             Boolean repetirPrograma = true;
-
+            
             while (repetirPrograma)
             {
                 try
                 {                    
                     Login();
 
-
-
-
-
+                    
 
 
                     Console.ReadKey();
@@ -1245,7 +1251,7 @@ namespace ProgramaClinica
                     System.Threading.Thread.Sleep(5000);
 
                     Console.Clear();
-                }
+                }                
             }
         }
     }

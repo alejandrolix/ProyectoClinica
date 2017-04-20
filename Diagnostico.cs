@@ -40,6 +40,7 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que devuelve "True" si el tipo de diagnóstico del paciente es "Alta". 
         public Boolean EsAlta()
         {
             if (this.TipoDiagnostico == "Alta")
@@ -52,11 +53,13 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que asigna un tratamiento al diagnóstico del paciente.
         public void Tratar(String tratamientoIntroducido)
         {
             this.Tratamiento = new Tratamiento(tratamientoIntroducido);
         }
 
+        // Método que comprueba si la especialidad introducida por el usuario está en la Enumeración "EnumTipoDiagnostico".
         public Object LeeEnum(String tipoDiagnostico)
         {
             String[] opcionesDisponibles = Enum.GetNames(typeof(EnumTipoDiagnostico));

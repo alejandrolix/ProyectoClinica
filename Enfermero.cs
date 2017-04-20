@@ -10,7 +10,8 @@ namespace ProgramaClinica
     class Enfermero : Profesional
     {        
         #region Métodos
-
+        
+        // Método que muestra el diagnóstico que tiene un paciente.
         public void MostrarDiagTratamPaciente()
         {
 

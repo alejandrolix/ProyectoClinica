@@ -22,7 +22,7 @@ namespace ProgramaClinica
         #endregion
 
 
-        #region Métodos
+        #region Método
 
         public override string ToString()
         {

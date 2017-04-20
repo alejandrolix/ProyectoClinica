@@ -42,6 +42,7 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que añade un paciente al listado de pacientes.
         public void AnnadirPaciente(Paciente paciente)
         {
             this.Pacientes.Add(paciente);
@@ -51,6 +52,7 @@ namespace ProgramaClinica
             System.Threading.Thread.Sleep(4000);
         }
 
+        // Método que quita un paciente al listado de pacientes.
         public void QuitarPaciente(Paciente paciente)
         {
             this.Pacientes.Remove(paciente);
@@ -60,6 +62,7 @@ namespace ProgramaClinica
             System.Threading.Thread.Sleep(4000);
         }
 
+        // Método que muestra el nº de pacientes que tiene un médico o un enfermero.
         public int CargaPacientes()
         {
             return this.Pacientes.Count;

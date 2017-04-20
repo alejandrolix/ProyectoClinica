@@ -28,6 +28,7 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que asigna un diagnóstico a un paciente.
         public void Diagnosticar()
         {
             String nispIntroducido, descripcionIntroducida, tipoDiagnIntroducido, tratamientoIntroducido;
@@ -155,6 +156,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que añade un tratamiento al diagnóstico de un paciente.
         public void Tratar(Paciente paciente)
         {
             String tratamientoIntroducido;            
@@ -192,6 +194,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que devuelve una lista con todos los pacientes listos para darles de alta.
         public List<Paciente> PacientesListosParaAlta()
         {
             List<Paciente> listaPacientesCurados = new List<Paciente>();
@@ -206,6 +209,7 @@ namespace ProgramaClinica
             return listaPacientesCurados;
         }
 
+        // Método que comprueba si la especialidad introducida por el usuario está en la Enumeración "EnumEspecialidad".
         public Object LeeEnum(String especialidad)
         {
             String[] opcionesDisponibles = Enum.GetNames(typeof(EnumEspecialidad));

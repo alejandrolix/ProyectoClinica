@@ -82,12 +82,14 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que asigna una habitación a un paciente.
         public void IngresarPaciente(Clinica clinica)
         {            
             clinica.AsignarHabitacion(this.Habitacion);
             clinica.AsignarMedico();
         }
 
+        // Método que devuelve "True" si el paciente está dado de alta.
         public Boolean AltaPaciente(Clinica clinica)
         {
             if (this.EstaCurado == false)
@@ -109,6 +111,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que muestra los datos de un paciente.
         public void MostrarDatosPaciente(Paciente paciente)
         {            
             String nispIntroducido;
@@ -147,6 +150,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que muestra los diagnósticos de un paciente.
         public void Diagnostico(Paciente paciente)
         {
             int numIntroducido;
@@ -222,6 +226,7 @@ namespace ProgramaClinica
             }            
         }
 
+        // Método que muestra el tratamiento del diagnóstico de un paciente.
         public void Tratamiento(Paciente paciente)
         {            
             Boolean repetirNISP = true;
@@ -265,6 +270,7 @@ namespace ProgramaClinica
             return String.Format("Datos Paciente \n N.S.I.P.: {0} \n Nombre: {1} \n Apellidos: {2} \n Sexo: {3} \n Fecha Nacimiento: {4} \n Edad: {5} \n Diagnósticos: {6}", this.NSIP, this.Nombre, this.Apellidos, this.Sexo, this.FechaNacimiento.ToString("dd/mm/aaaa"), this.Edad, this.Diagnosticos);
         }
 
+        // Método que muestra el último diagnóstico de un paciente.
         public void MostrarUltimoDiagnostico()
         {
             Console.Clear();
@@ -274,11 +280,13 @@ namespace ProgramaClinica
             Console.ReadKey();
         }
 
+        // Método que da de alta un paciente.
         public void DarAlta()
         {            
             this.Habitacion.IngresarPaciente();
         }
 
+        // Método que muestra la especialidad que tiene un paciente.
         public void EspecialidadPaciente(Habitacion habitacion)
         {
             if (this.Habitacion.Numero == habitacion.Numero)
@@ -301,6 +309,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que busca la habitación en la que está un paciente.
         public void BuscarHabitacion(Paciente paciente)
         {
             String nispIntroducido;
@@ -342,6 +351,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que busca el médico al que pertenece un paciente.
         public void BuscarMedico(Paciente paciente, Clinica clinica)
         {
             String nispIntroducido;
@@ -380,6 +390,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que da de baja un paciente.
         public void BajaPaciente(Paciente paciente)
         {
             String nispIntroducido;

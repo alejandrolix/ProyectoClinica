@@ -40,6 +40,7 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que comprueba si la especialidad introducida por el usuario está en la Enumeración "EnumEspecialidad".
         public Object LeeEnum(String especialidad)
         {
             String[] opcionesDisponibles = Enum.GetNames(typeof(EnumEspecialidad));
@@ -74,21 +75,25 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que ingresa un paciente en una habitación.
         public void IngresarPaciente()
         {
             this._Ocupada = true;
         }
 
+        // Método que quita un paciente de su habitación.
         public void QuitarPaciente()
         {
             this._Ocupada = false;
         }
 
+        // Método que borra una habitación.
         public void BorrarHabitacion(Habitacion habitacion)
         {
             habitacion = null;
         }
 
+        // Método que añade una habitación.
         public void AnnadirHabitacion()
         {
             String especialidadIntroducida;            
@@ -101,12 +106,14 @@ namespace ProgramaClinica
             Habitacion habitacion = new Habitacion(this.Numero++, false, especialidadIntroducida);
         }
 
+        // Método que muestra la especialidad de una habitación.
         public void MostrarEspecialidad(Habitacion habitacion)
         {
             Console.Clear();
             Console.WriteLine("Especialidad: " + habitacion.Especialidad);            
         }
 
+        // Método que cambia la especialidad de una habitación.
         public void CambiarEspecialidad(Habitacion habitacion)
         {
             String especialidadIntroducida;

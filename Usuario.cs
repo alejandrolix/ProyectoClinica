@@ -34,26 +34,7 @@ namespace ProgramaClinica
             set { this._Numero = value; }
         }
 
-        #endregion 
-        
-       
-        #region Métodos
-
-        public void GuardarUsuarioEnArchivo(Usuario usuario)
-        {
-            IFormatter formatear = new BinaryFormatter();
-
-            if (usuario.Nombre != "Administrador")
-            {
-                FileStream archivo = new FileStream(@".\..\..\Archivos\usuarios.pas", FileMode.Append, FileAccess.Write);
-
-                formatear.Serialize(archivo, usuario);
-                
-                archivo.Close();
-            }
-        }
-
-        #endregion
+        #endregion                       
 
 
         #region Constructor

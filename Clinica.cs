@@ -69,6 +69,7 @@ namespace ProgramaClinica
 
         #region Métodos
 
+        // Método que añade un médico al listado de médicos.
         public void AnnadirMedico()
         {
             Boolean repetirNombre = true, repetirApellidos = true, repetirDni = true, repetirEspecialidad = true;
@@ -160,6 +161,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que añade un enfermero al listado de enfermeros.
         public void AnnadirEnfermero()
         {
             Boolean repetirNombre = true, repetirApellidos = true, repetirDni = true;
@@ -230,6 +232,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que borra un médico del listado de médicos.
         public void BorrarMedico()
         {
             Boolean repetirDni = true, romperBucle = true;
@@ -270,6 +273,7 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que borra un enfermero del listado de enfermeros.
         public void BorrarEnfermero()
         {
             Boolean repetirDni = true, romperBucle = true;
@@ -310,11 +314,13 @@ namespace ProgramaClinica
             }
         }
 
+        // Método que busca una habitación del listado de habitaciones.
         public void BuscarHabitacion()
         {
 
         }
 
+        // Método que busca un médico del listado de médicos.
         public Medico BuscarMedico(Paciente paciente)
         {
             for (int i = 0; i < this.Medicos.Count; i++)
@@ -327,6 +333,7 @@ namespace ProgramaClinica
             return null;
         }
 
+        // Método que asigna una habitación a un paciente del listado de habitaciones.
         public Boolean AsignarHabitacion(Habitacion habitacion)
         {
             for (int i = 0; i < this.Habitaciones.Count; i++)
@@ -339,6 +346,7 @@ namespace ProgramaClinica
             return false;
         }
 
+        // Método que asigna un médico a uno o a varios pacientes.
         public void AsignarMedico()
         {
             int primerValor = this.Medicos[0].CargaPacientes();
