@@ -1,0 +1,6 @@
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\bin\Debug\Clinica.exe.config
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\bin\Debug\Clinica.exe
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\bin\Debug\Clinica.pdb
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\obj\Debug\Clinica.exe
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\obj\Debug\Clinica.pdb
+G:\C.F\DAM\1 DAM\Programación\C#\Proyectos\Clínica\Clinica\obj\Debug\Clinica.csprojResolveAssemblyReference.cache
